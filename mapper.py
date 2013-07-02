@@ -1,6 +1,5 @@
 import requests
 from BeautifulSoup import BeautifulSoup
-from collections import deque
 
 
 def map_site(url):
@@ -9,16 +8,16 @@ def map_site(url):
     searched = []
 
     while len(not_searched):
+        # really terrible, O(n^2), but it needs done fast, so...
         search_url = not_searched.pop()
         if search_url not in searched:
             print "Searching {}".format(search_url)
             not_searched.extend(scrape_links(url, search_url))
         else:
-            print "Skipping {}, already scraped".format(search_url)
-            continue
+            continue # skip, already searched
         searched.append(search_url) 
 
-    return not_searched, searched
+    return searched
 
 
 def scrape_links(root, url):
@@ -38,8 +37,3 @@ def rootify(root, url):
     if url.startswith(u'/'): # It's a relative path
         return '/'.join(u.strip('/') for u in (root, url))
     return url
-
-
-if __name__ == '__main__':
-    print map_site("http://www.restorethefourth.net/")
-
