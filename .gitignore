@@ -1,0 +1,5 @@
+*.sqp
+*.swo
+*.pyc
+*.pyd
+rtf/
